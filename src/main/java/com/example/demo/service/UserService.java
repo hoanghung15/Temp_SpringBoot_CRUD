@@ -16,6 +16,11 @@ public class UserService {
 
     public User createUser(UserCreateRequest request){
         User user = new User();
+
+        if(userRepository.existsByUsername(request.getUsername())){
+            throw new RuntimeException("User existed");
+        }
+
         user.setDob(request.getDob());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -29,7 +34,7 @@ public class UserService {
     }
 
     public User getUser(String id){
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(() ->new RuntimeException("User not found"));
     }
 
     public User updateUser(String id,UserUpdateRequest request){

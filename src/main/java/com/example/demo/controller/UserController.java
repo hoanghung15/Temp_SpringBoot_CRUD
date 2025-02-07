@@ -4,6 +4,7 @@ import com.example.demo.dto.request.UserCreateRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody UserCreateRequest request){
+    User createUser(@RequestBody @Valid UserCreateRequest request){
         return userService.createUser(request);
     }
     @GetMapping
