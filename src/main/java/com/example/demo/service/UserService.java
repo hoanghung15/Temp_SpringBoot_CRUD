@@ -5,6 +5,7 @@ import com.example.demo.dto.request.UserUpdateRequest;
 import com.example.demo.entity.User;
 import com.example.demo.exception.AppException;
 import com.example.demo.exception.ErrorCode;
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +16,14 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     public User createUser(UserCreateRequest request){
-        User user = new User();
-
         if(userRepository.existsByUsername(request.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-
-        user.setDob(request.getDob());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
+        User user = userMapper.toUser(request);
         return  userRepository.save(user);
     }
 
@@ -41,10 +37,7 @@ public class UserService {
 
     public User updateUser(String id,UserUpdateRequest request){
         User user = getUser(id);
-        user.setPassword(request.getPassword());
-        user.setDob(request.getDob());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
+        userMapper.toUpdateUser(user,request);
         return userRepository.save(user);
     }
 
