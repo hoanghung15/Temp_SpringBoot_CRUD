@@ -40,4 +40,8 @@ public class UserController {
         return userService.deleteUser(userID);
     }
 
+    @GetMapping("/search/{firstName}")
+    List<User>findUserByFistName(@PathVariable String firstName){
+        return userService.findUserByFirstName(firstName);
+    }
 }

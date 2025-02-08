@@ -46,5 +46,9 @@ public class UserService {
         return getUsers();
     }
 
+    public List<User> findUserByFirstName(String firstName){
+        return userRepository.findUserByFirstName(firstName);
+    }
+
 
 }
